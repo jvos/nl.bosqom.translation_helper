@@ -1,0 +1,8 @@
+name = Translation helper
+description = Helper for translations.
+version = 1.0
+core = 7.x
+project = "translation_helper"
+package = Other
+
+configure = admin/config/regional/translate/translation_helper

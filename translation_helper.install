@@ -1,0 +1,57 @@
+<?php
+/**
+ * Implementation of hook_requirements
+ * 
+ * requirements function for tranalation helper
+ */
+function translation_helper_requirements($phase) 
+{
+  $requirements = array();
+
+  if('install' == $phase){
+    // check if file_directory_temp is dir
+    if(!is_dir(file_directory_temp())){
+      $requirements['file_directory_temp'] = array(
+        'title' => t('Temporary file directory'),
+        'description' => t('For translation helper there must be a temporary file directory that exists !'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    
+    if(ini_get('safe_mode')){ 
+      // safe mode is on
+      $requirements['safe_mode'] = array(
+        'title' => t('Safe mode'),
+        'description' => t('For translation helper the safe mode must be off in the php.ini'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+  
+  return $requirements;
+}
+
+/**
+ * Implementation of hook_install
+ * 
+ * install function for tranalation helper
+ */
+function translation_helper_install()
+{
+  if (!is_dir(file_directory_temp() . '/translation_helper/')) {
+    mkdir(file_directory_temp() . '/translation_helper/');         
+  }
+}
+
+/**
+ * Implementation of hook_uninstall
+ * 
+ * uninstall function for tranalation helper
+ */
+function translation_helper_uninstall()
+{
+  variable_del('translation_helper_settings');
+  variable_del('translation_helper_get_translation_text');
+  variable_del('translation_helper_get_translation_text_file_queue');
+}
+?>

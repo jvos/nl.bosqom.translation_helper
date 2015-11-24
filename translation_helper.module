@@ -1,0 +1,95 @@
+<?php
+include_once 'api.inc';
+
+include_once 'translation_text.inc';
+include_once 'translate_po_file.inc';
+
+/**
+ * Implementation of hook_permission
+ * 
+ * permissions for leave reagistration
+ */
+function translation_helper_permission()
+{
+  $permission = array();
+  
+  $permission['access_translation_helper'] = array
+  (
+    'title' => t('Access translation helper')
+  );
+    
+  return $permission;
+}
+
+/**
+ * Implementation of hook_menu
+ * 
+ * Menu items for leave registration
+ */
+function translation_helper_menu()
+{
+  $items = array();
+  
+	$items['admin/config/regional/translate/translation_helper'] = array(
+		'title' => t('Helper'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => -1,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('translation_helper_translation_text', 1),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  // step 1 - get translation text
+  $items['admin/config/regional/translate/translation_helper/translation_text'] = array(
+		'title' => t('Step 1 - Get translation text'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_translation_text', 1),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  $items['admin/config/regional/translate/translation_helper/translation_text/%'] = array(
+		'title' => t('Step 1 - Get translation text - actions'),
+    'type' => MENU_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_translation_text_actions', 6),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  // step 2 - translate po files
+  $items['admin/config/regional/translate/translation_helper/translate_po_file'] = array(
+		'title' => t('Step 2 - Translate po file'),
+    'type' => MENU_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_translate_po_file', 1),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  $items['admin/config/regional/translate/translation_helper/translate_po_file/%'] = array(
+		'title' => t('Step 2 - Translate po file'),
+    'type' => MENU_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_translate_po_file_actions', 6),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  // step 3 - combine po files
+  $items['admin/config/regional/translate/translation_helper/combine_po_files'] = array(
+		'title' => t('Step 3 - Combine po files'),
+    'type' => MENU_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_combine_po_files', 1),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  $items['admin/config/regional/translate/translation_helper/combine_po_files/%'] = array(
+		'title' => t('Step 2 - Combine po files'),
+    'type' => MENU_LOCAL_TASK,
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('translation_helper_combine_po_files_actions', 6),
+		'access arguments' => array('access_translation_helper'),
+	);
+  
+  return $items;
+}
+?>
