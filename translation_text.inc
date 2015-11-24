@@ -1,6 +1,10 @@
 <?php
 function translation_helper_translation_text($form, &$form_state)
+<<<<<<< HEAD
 {  
+=======
+{
+>>>>>>> a8d728b39eadb60dcb94bf6d9d99c8cccbca1f24
   $translation_text = array
   (
     'path' => rawurlencode('sites/all/modules/custom/translation_helper'),
@@ -328,7 +332,10 @@ function translation_helper_translation_text_actions($form, &$form_state, $actio
 
       time_nanosleep(0, 100000000);
 
+<<<<<<< HEAD
       $text_cur = [];
+=======
+>>>>>>> a8d728b39eadb60dcb94bf6d9d99c8cccbca1f24
       foreach($text as $count => $t){
         $percent = intval(($count+1)/$total * 100);
 
@@ -343,6 +350,7 @@ function translation_helper_translation_text_actions($form, &$form_state, $actio
 
         variable_set('translation_helper_translation_text_file_queue', serialize($queue));
         
+<<<<<<< HEAD
         // check if translation already exist
         if(!in_array($t, $text_cur)){
           fwrite($file,'' . "\r\n");
@@ -351,6 +359,12 @@ function translation_helper_translation_text_actions($form, &$form_state, $actio
           $text_cur[] = $t;
         }
         
+=======
+        fwrite($file,'' . "\r\n");
+        fwrite($file,'msgid "' .  $t . '"' . "\r\n");
+        fwrite($file,'msgstr ""' . "\r\n");
+
+>>>>>>> a8d728b39eadb60dcb94bf6d9d99c8cccbca1f24
         echo str_repeat(' ',1024*64); 
         flush();
 
